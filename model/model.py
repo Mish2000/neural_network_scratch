@@ -2,7 +2,7 @@ import copy
 import os
 import pickle
 import cv2
-import numpy as np
+import cupy as np
 
 from layers.layer_input import Layer_Input
 
@@ -67,24 +67,45 @@ class Model:
                 data_loss, reg_loss = self.loss.calculate(output, batch_y, include_regularization=True)
                 loss_val = data_loss + reg_loss
 
-                if self.output_layer_activation is not None:
-                    predictions = self.output_layer_activation.predictions(output)
-                else:
-                    predictions = output
+                predictions = np.argmax(output, axis=1)
 
                 acc_val = self.accuracy.calculate(predictions, batch_y)
 
                 self.backward(output, batch_y)
 
+                '''
+                                for i, layer in enumerate(self.layers):
+                    # If the layer has trainable parameters
+                    if hasattr(layer, 'dweights'):
+                        dw_mean = float(np.mean(np.abs(layer.dweights)))
+                        db_mean = float(np.mean(np.abs(layer.dbiases)))
+                        print(f"   layer[{i}] avg|dW|={dw_mean:.8f}, avg|dB|={db_mean:.8f}")
+                '''
+
+                layer0 = self.trainable_layers[0]
+
+               # print("  dweights layer0 avg abs grad:", float(np.mean(np.abs(layer0.dweights))))
+               # print("  dbiases layer0 avg abs grad:", float(np.mean(np.abs(layer0.dbiases))))
+
                 self.optimizer.pre_update_params()
+
+                # layer0 was updated:
+                old_weights = layer0.weights.copy()
+                self.optimizer.update_params(layer0)
+                new_weights = layer0.weights
+                diff = np.mean(np.abs(new_weights - old_weights))
+                #print("  average update on layer0 weights:", float(diff))
+
                 for layer in self.trainable_layers:
                     self.optimizer.update_params(layer)
                 self.optimizer.post_update_params()
 
-                if (not step % print_every) or (step == steps - 1):
+                '''
+                                if (not step % print_every) or (step == steps - 1):
                     print(f" step: {step}, acc: {acc_val:.3f}, loss: {loss_val:.3f} "
                           f"(data_loss: {data_loss:.3f}, reg_loss: {reg_loss:.3f}), "
                           f"lr: {self.optimizer.current_learning_rate}")
+                '''
 
             epoch_data_loss, epoch_reg_loss = self.loss.calculate_accumulated(include_regularization=True)
             epoch_loss = epoch_data_loss + epoch_reg_loss
@@ -119,10 +140,7 @@ class Model:
             output = self.forward(batch_X, training=False)
             self.loss.calculate(output, batch_y)
 
-            if self.output_layer_activation is not None:
-                predictions = self.output_layer_activation.predictions(output)
-            else:
-                predictions = output
+            predictions = np.argmax(output, axis=1)
 
             self.accuracy.calculate(predictions, batch_y)
 

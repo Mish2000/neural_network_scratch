@@ -1,4 +1,5 @@
 import os
+import cupy as np
 
 from tensorflow.keras.datasets import fashion_mnist
 
@@ -21,6 +22,11 @@ def load_dataset():
 
 def main():
     X_train, y_train, X_val, y_val = load_dataset()
+
+    X_train = np.asarray(X_train)
+    y_train = np.asarray(y_train)
+    X_val = np.asarray(X_val)
+    y_val = np.asarray(y_val)
 
     model = Model()
     model.add(Layer_Dense(784, 128, weight_regularizer_l2=1e-4, bias_regularizer_l2=1e-4))

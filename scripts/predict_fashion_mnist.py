@@ -1,12 +1,12 @@
 import cv2
-import numpy as np
+import cupy as np
 import os
 
 from model.model import Model
 
 if __name__ == "__main__":
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    img_path = os.path.join(script_dir, "coat1.png")
+    img_path = os.path.join(script_dir, "sneaker1.png")
 
     image_data = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
     if image_data is None:
@@ -43,5 +43,8 @@ if __name__ == "__main__":
 
     prediction_label = fashion_mnist_labels[predictions[0]]
     print("Predicted:", prediction_label)
+    confidence_score = np.max(confidences)
+    print(f"Predicted: {prediction_label} (confidence: {confidence_score:.2%})")
+
 
 

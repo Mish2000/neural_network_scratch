@@ -1,5 +1,5 @@
 import os
-import numpy as np
+import cupy as np
 from data_utils.text_preprocessing import (
     simple_tokenize,
     build_vocabulary,

@@ -1,4 +1,4 @@
-import numpy as np
+import cupy as np
 
 class Optimizer_RMSprop:
     def __init__(self, learning_rate=0.001, decay=0., epsilon=1e-7, rho=0.9):

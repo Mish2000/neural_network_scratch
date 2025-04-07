@@ -1,5 +1,5 @@
 from accuracy.accuracy import Accuracy
-import numpy as np
+import cupy as np
 
 class Accuracy_Regression(Accuracy):
     def __init__(self):

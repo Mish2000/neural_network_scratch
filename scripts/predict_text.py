@@ -1,5 +1,5 @@
 import os
-import numpy as np
+import cupy as np
 from data_utils.text_preprocessing import build_vocabulary, text_to_sequence
 from model.model import Model
 

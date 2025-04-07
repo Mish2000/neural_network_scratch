@@ -1,4 +1,4 @@
-import numpy as np
+import cupy as np
 
 class Activation_ReLU:
     def forward(self, inputs, training):

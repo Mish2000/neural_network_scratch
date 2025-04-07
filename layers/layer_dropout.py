@@ -1,4 +1,4 @@
-import numpy as np
+import cupy as np
 
 class Layer_Dropout:
     def __init__(self, rate):

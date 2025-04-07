@@ -1,4 +1,4 @@
-import numpy as np
+import cupy as np
 
 class Optimizer_SGD:
     def __init__(self, learning_rate=1., decay=0., momentum=0.):

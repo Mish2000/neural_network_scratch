@@ -3,5 +3,5 @@
   <component name="Black">
     <option name="sdkName" value="Python 3.12 (neural_network_scratch)" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="py3.8_tf2.4.0_env" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="scratch_nn" project-jdk-type="Python SDK" />
 </project>

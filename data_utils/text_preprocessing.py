@@ -1,5 +1,5 @@
 import re
-import numpy as np
+import cupy as np
 
 def simple_tokenize(text):
     text = re.sub(r"[^\w\s]", "", text.lower())

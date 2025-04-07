@@ -1,5 +1,5 @@
 from losses.loss import Loss
-import numpy as np
+import cupy as np
 
 class Loss_BinaryCrossentropy(Loss):
     def forward(self, y_pred, y_true):

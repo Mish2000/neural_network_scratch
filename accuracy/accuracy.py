@@ -1,4 +1,4 @@
-import numpy as np
+import cupy as np
 class Accuracy:
     def calculate(self, predictions, y):
         comparisons = self.compare(predictions, y)

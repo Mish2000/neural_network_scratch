@@ -1,4 +1,4 @@
-import numpy as np
+import cupy as np
 
 class Activation_Softmax:
     def forward(self, inputs, training):
